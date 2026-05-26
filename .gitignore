@@ -1,0 +1,41 @@
+# .gitignore — Terraform
+# Never commit secrets, state, or local overrides.
+
+# ── State files ───────────────────────────────────────────────────────────────
+# Local state is only for bootstrapping. Production state lives in Azure Blob Storage.
+*.tfstate
+*.tfstate.*
+*.tfstate.backup
+
+# ── Variable files with real values ──────────────────────────────────────────
+terraform.tfvars
+*.auto.tfvars
+# Allow the example file through
+!terraform.tfvars.example
+
+# ── Provider and module cache ─────────────────────────────────────────────────
+.terraform/
+.terraform.lock.hcl   # Commit this in team repos for reproducible provider installs
+                       # Remove from .gitignore if your team policy requires it
+
+# ── Plan files (may contain secrets in plain text) ───────────────────────────
+*.tfplan
+*.plan
+
+# ── Crash logs ───────────────────────────────────────────────────────────────
+crash.log
+crash.*.log
+
+# ── Override files (local dev only) ──────────────────────────────────────────
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# ── Editor and OS noise ───────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo
