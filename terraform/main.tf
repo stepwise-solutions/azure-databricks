@@ -69,15 +69,17 @@ module "databricks_external_location" {
 }
 
 module "databricks_unity_catalog" {
+  for_each = local.catalogs
+
   source = "./modules/databricks-unity-catalog"
 
-  catalog_name = local.databricks_catalog_name
-  schema_name  = var.databricks_schema_name
+  catalog_name = local.catalog_names[each.key]
+  schemas      = each.value.schemas
   storage_root = format(
     "abfss://%s@%s.dfs.core.windows.net/%s",
     var.databricks_catalog_storage_filesystem,
     module.data_lake.storage_account_name,
-    local.databricks_catalog_name,
+    local.catalog_names[each.key],
   )
 
   depends_on = [

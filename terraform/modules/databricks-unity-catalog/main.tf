@@ -5,8 +5,10 @@ resource "databricks_catalog" "this" {
 }
 
 resource "databricks_schema" "this" {
+  for_each = toset(var.schemas)
+
   catalog_name = databricks_catalog.this.name
-  name         = var.schema_name
+  name         = each.value
   comment      = var.schema_comment
 
   depends_on = [databricks_catalog.this]

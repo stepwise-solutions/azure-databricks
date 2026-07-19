@@ -78,13 +78,25 @@ variable "databricks_external_location_name_prefix" {
   type        = string
 }
 
-variable "databricks_schema_name" {
-  description = "The name of the Unity Catalog schema."
-  type        = string
+variable "catalog_project_names" {
+  description = "The list of project names to deploy as Unity Catalog catalogs. Each name is prefixed with the environment (for example, project1 becomes dev_project1)."
+  type        = list(string)
+}
+
+variable "catalog_project_schemas" {
+  description = "The schemas to create within each catalog project, keyed by project name."
+  type        = map(list(string))
+
+  validation {
+    condition = alltrue([
+      for project in var.catalog_project_names : contains(keys(var.catalog_project_schemas), project)
+    ])
+    error_message = "Every project in catalog_project_names must have a matching entry in catalog_project_schemas."
+  }
 }
 
 variable "databricks_catalog_storage_filesystem" {
-  description = "The ADLS Gen2 filesystem used as the storage root for the Unity Catalog catalog."
+  description = "The ADLS Gen2 filesystem used as the storage root for Unity Catalog catalogs."
   type        = string
   default     = "bronze"
 }

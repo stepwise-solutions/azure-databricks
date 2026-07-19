@@ -3,9 +3,10 @@ variable "catalog_name" {
   type        = string
 }
 
-variable "schema_name" {
-  description = "The name of the Unity Catalog schema."
-  type        = string
+variable "schemas" {
+  description = "The list of schema names to create within the catalog."
+  type        = list(string)
+  default     = []
 }
 
 variable "storage_root" {
@@ -20,7 +21,7 @@ variable "catalog_comment" {
 }
 
 variable "schema_comment" {
-  description = "An optional comment describing the schema."
+  description = "An optional comment describing schemas within the catalog."
   type        = string
   default     = "Schema managed by Terraform"
 }
