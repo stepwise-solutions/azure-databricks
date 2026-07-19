@@ -92,3 +92,23 @@ output "databricks_external_location_urls" {
   description = "The ADLS Gen2 URLs for the Unity Catalog external locations."
   value       = { for filesystem, location in module.databricks_external_location : filesystem => location.url }
 }
+
+output "databricks_catalog_name" {
+  description = "The Unity Catalog catalog name."
+  value       = module.databricks_unity_catalog.catalog_name
+}
+
+output "databricks_schema_name" {
+  description = "The Unity Catalog schema name."
+  value       = module.databricks_unity_catalog.schema_name
+}
+
+output "databricks_schema_id" {
+  description = "The fully qualified Unity Catalog schema ID."
+  value       = module.databricks_unity_catalog.schema_id
+}
+
+output "databricks_catalog_storage_root" {
+  description = "The storage root path for the Unity Catalog catalog."
+  value       = module.databricks_unity_catalog.storage_root
+}

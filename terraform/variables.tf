@@ -77,3 +77,14 @@ variable "databricks_external_location_name_prefix" {
   description = "The prefix used when naming Unity Catalog external locations for each data lake filesystem."
   type        = string
 }
+
+variable "databricks_schema_name" {
+  description = "The name of the Unity Catalog schema."
+  type        = string
+}
+
+variable "databricks_catalog_storage_filesystem" {
+  description = "The ADLS Gen2 filesystem used as the storage root for the Unity Catalog catalog."
+  type        = string
+  default     = "bronze"
+}
