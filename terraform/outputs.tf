@@ -82,3 +82,13 @@ output "databricks_storage_credential_access_connector_id" {
   description = "The Access Connector ID referenced by the Unity Catalog storage credential."
   value       = module.databricks_storage_credential.access_connector_id
 }
+
+output "databricks_external_location_names" {
+  description = "The names of the Unity Catalog external locations for the data lake."
+  value       = { for filesystem, location in module.databricks_external_location : filesystem => location.name }
+}
+
+output "databricks_external_location_urls" {
+  description = "The ADLS Gen2 URLs for the Unity Catalog external locations."
+  value       = { for filesystem, location in module.databricks_external_location : filesystem => location.url }
+}

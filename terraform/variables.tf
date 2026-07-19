@@ -72,3 +72,8 @@ variable "databricks_storage_credential_name" {
   description = "The name of the Unity Catalog storage credential backed by the Databricks Access Connector managed identity."
   type        = string
 }
+
+variable "databricks_external_location_name_prefix" {
+  description = "The prefix used when naming Unity Catalog external locations for each data lake filesystem."
+  type        = string
+}

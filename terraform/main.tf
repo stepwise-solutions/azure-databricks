@@ -52,3 +52,18 @@ module "databricks_storage_credential" {
     module.databricks_access_connector,
   ]
 }
+
+module "databricks_external_location" {
+  for_each = toset(var.data_lake_filesystem_names)
+
+  source = "./modules/databricks-external-location"
+
+  name            = "${var.databricks_external_location_name_prefix}-${each.key}"
+  url             = format("abfss://%s@%s.dfs.core.windows.net/", each.key, module.data_lake.storage_account_name)
+  credential_name = module.databricks_storage_credential.name
+
+  depends_on = [
+    module.databricks_storage_credential,
+    module.data_lake,
+  ]
+}
