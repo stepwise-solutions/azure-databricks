@@ -100,3 +100,27 @@ variable "databricks_catalog_storage_filesystem" {
   type        = string
   default     = "bronze"
 }
+
+variable "external_volumes" {
+  description = "Unity Catalog external volumes keyed by a unique identifier. Data lake path is derived as {filesystem}/{catalog_project}/{schema_name}."
+  type = map(object({
+    name            = string
+    catalog_project = string
+    schema_name     = string
+    filesystem      = string
+  }))
+
+  validation {
+    condition = alltrue([
+      for volume in var.external_volumes : contains(var.catalog_project_names, volume.catalog_project)
+    ])
+    error_message = "Each external volume catalog_project must exist in catalog_project_names."
+  }
+
+  validation {
+    condition = alltrue([
+      for volume in var.external_volumes : contains(var.data_lake_filesystem_names, volume.filesystem)
+    ])
+    error_message = "Each external volume filesystem must exist in data_lake_filesystem_names."
+  }
+}

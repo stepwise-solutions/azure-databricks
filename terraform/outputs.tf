@@ -112,3 +112,13 @@ output "databricks_schema_ids" {
   description = "The fully qualified schema IDs for each Unity Catalog catalog keyed by catalog identifier."
   value       = { for key, catalog in module.databricks_unity_catalog : key => catalog.schema_ids }
 }
+
+output "databricks_external_volume_names" {
+  description = "The fully qualified names of Unity Catalog external volumes."
+  value       = { for key, volume in module.databricks_external_volume : key => volume.qualified_name }
+}
+
+output "databricks_external_volume_storage_locations" {
+  description = "The ADLS Gen2 storage locations for Unity Catalog external volumes."
+  value       = { for key, volume in module.databricks_external_volume : key => volume.storage_location }
+}

@@ -87,3 +87,25 @@ module "databricks_unity_catalog" {
     module.databricks_storage_credential,
   ]
 }
+
+module "databricks_external_volume" {
+  for_each = var.external_volumes
+
+  source = "./modules/databricks-external-volume"
+
+  name         = each.value.name
+  catalog_name = local.catalog_names[each.value.catalog_project]
+  schema_name  = each.value.schema_name
+  storage_location = format(
+    "abfss://%s@%s.dfs.core.windows.net/%s/%s/",
+    each.value.filesystem,
+    module.data_lake.storage_account_name,
+    each.value.catalog_project,
+    each.value.schema_name,
+  )
+
+  depends_on = [
+    module.databricks_external_location,
+    module.databricks_unity_catalog,
+  ]
+}
